@@ -4,8 +4,8 @@
 **Track:** Team AI - Task 4  
 **Project Lead:** Usama  
 **Status:** Production-Ready (100% Evaluation Criteria Met)  
-**Demo Video:** [Link to 2-3 Min Video Demo]  
-**LinkedIn Writeup:** [Link to Published LinkedIn Post]  
+**Demo Video:** https://www.loom.com/share/b52e4751186e429c94492953d5299a14  
+**LinkedIn Writeup:** https://lnkd.in/p/d8Mm3VrG  
 
 ---
 
