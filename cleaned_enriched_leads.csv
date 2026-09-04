@@ -1,0 +1,19 @@
+company_name,contact_email,contact_name,country,website,employee_count,lead_tier,industry,core_technology,market_segment
+Google,sundar@google.com,Sundar Pichai,United States,google.com,150000,Tier 1: Enterprise Account,Technology & Software,B2B Cloud Solutions,Enterprise SaaS
+Stripe,patrick@stripe.com,Patrick Collison,United States,stripe.com,8000,Tier 1: Enterprise Account,Technology & Software,B2B Cloud Solutions,Enterprise SaaS
+Canva,melanie@canva.com,Melanie Perkins,Australia,canva.com,3500,Tier 2: Mid-Market Account,Technology & Software,B2B Cloud Solutions,Enterprise SaaS
+Airtable,howie@airtable.com,Howie Liu,United States,airtable.com,900,Tier 3: SMB / Emerging Growth,Technology & Software,B2B Cloud Solutions,Enterprise SaaS
+Figma,dylan@figma.com,Dylan Field,United States,figma.com,1200,Tier 2: Mid-Market Account,Technology & Software,B2B Cloud Solutions,Enterprise SaaS
+Hubspot,yamini@hubspot.com,Yamini Rangan,United States,hubspot.com,7400,Tier 1: Enterprise Account,Technology & Software,B2B Cloud Solutions,Enterprise SaaS
+Slack,denise@slack.com,Denise Dresser,United States,slack.com,2500,Tier 2: Mid-Market Account,Technology & Software,B2B Cloud Solutions,Enterprise SaaS
+Asana,dustin@asana.com,Dustin Moskovitz,United States,asana.com,1800,Tier 2: Mid-Market Account,Technology & Software,B2B Cloud Solutions,Enterprise SaaS
+Miro,andrey@miro.com,Andrey Khusid,United States,miro.com,1800,Tier 2: Mid-Market Account,Technology & Software,B2B Cloud Solutions,Enterprise SaaS
+Clickup,zeb@clickup.com,Zeb Evans,United States,clickup.com,900,Tier 3: SMB / Emerging Growth,Technology & Software,B2B Cloud Solutions,Enterprise SaaS
+Zapier,wade@zapier.com,Wade Foster,United States,zapier.com,800,Tier 3: SMB / Emerging Growth,Technology & Software,B2B Cloud Solutions,Enterprise SaaS
+Shopify,tobi@shopify.com,Tobias Lutke,Canada,shopify.com,11600,Tier 1: Enterprise Account,Technology & Software,B2B Cloud Solutions,Enterprise SaaS
+Datadog,oli@datadog.com,Olivier Pomel,United States,datadoghq.com,4800,Tier 2: Mid-Market Account,Technology & Software,B2B Cloud Solutions,Enterprise SaaS
+Gitlab,sid@gitlab.com,Sid Sijbrandij,United States,about.gitlab.com,2100,Tier 2: Mid-Market Account,Technology & Software,B2B Cloud Solutions,Enterprise SaaS
+Zoom Video,eric@zoom.us,Eric Yuan,United States,zoom.us,7000,Tier 1: Enterprise Account,Technology & Software,B2B Cloud Solutions,Enterprise SaaS
+Atlassian,mike@atlassian.com,Mike Cannon-Brookes,Australia,atlassian.com,11000,Tier 1: Enterprise Account,Technology & Software,B2B Cloud Solutions,Enterprise SaaS
+Twilio,khozema@twilio.com,Khozema Shipchandler,United States,twilio.com,6000,Tier 1: Enterprise Account,Technology & Software,B2B Cloud Solutions,Enterprise SaaS
+Notion Labs,ivan@notion.so,Ivan Zhao,United States,notion.so,500,Tier 3: SMB / Emerging Growth,Technology & Software,B2B Cloud Solutions,Enterprise SaaS
