@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ApexHaven AI — Document RAG Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans">
+  <!-- Top Navigation -->
+  <header class="border-b border-slate-800 bg-slate-950/70 backdrop-blur px-6 py-4 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center space-x-3">
+      <div class="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
+        <i class="fa-solid fa-building-shield text-lg"></i>
+      </div>
+      <div>
+        <h1 class="font-bold text-lg text-white leading-tight">ApexHaven Properties</h1>
+        <p class="text-xs text-slate-400">Enterprise AI Document RAG System</p>
+      </div>
+    </div>
+    <div class="flex items-center space-x-2">
+      <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-2 animate-pulse"></span>
+        FastAPI & ChromaDB Live
+      </span>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+    
+    <!-- Left Column: Metrics & Document Management -->
+    <div class="lg:col-span-5 space-y-6 flex flex-col">
+      <!-- Live Metrics Cards -->
+      <div class="grid grid-cols-3 gap-3">
+        <div class="bg-slate-800/60 border border-slate-700/60 rounded-xl p-4">
+          <p class="text-xs text-slate-400 font-medium">Documents</p>
+          <p id="stat-docs" class="text-2xl font-bold text-white mt-1">0</p>
+        </div>
+        <div class="bg-slate-800/60 border border-slate-700/60 rounded-xl p-4">
+          <p class="text-xs text-slate-400 font-medium">Indexed Chunks</p>
+          <p id="stat-chunks" class="text-2xl font-bold text-indigo-400 mt-1">0</p>
+        </div>
+        <div class="bg-slate-800/60 border border-slate-700/60 rounded-xl p-4">
+          <p class="text-xs text-slate-400 font-medium">Queries Run</p>
+          <p id="stat-queries" class="text-2xl font-bold text-emerald-400 mt-1">0</p>
+        </div>
+      </div>
+
+      <!-- Ingestion / Upload Box -->
+      <div class="bg-slate-800/40 border border-slate-700/60 rounded-xl p-5">
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-3 flex items-center">
+          <i class="fa-solid fa-cloud-arrow-up mr-2 text-indigo-400"></i> Document Ingestion
+        </h2>
+        <div class="border-2 border-dashed border-slate-700 hover:border-indigo-500/60 rounded-lg p-5 text-center transition cursor-pointer" onclick="document.getElementById('file-input').click()">
+          <input type="file" id="file-input" class="hidden" accept=".pdf,.docx,.txt" onchange="handleFileUpload(this.files[0])" />
+          <i class="fa-solid fa-file-lines text-2xl text-slate-400 mb-2"></i>
+          <p class="text-xs text-slate-300">Click to upload <span class="font-semibold text-indigo-400">PDF, DOCX, or TXT</span></p>
+          <p class="text-[11px] text-slate-500 mt-1">Auto-extracted, chunked & embedded into ChromaDB</p>
+        </div>
+        <div id="upload-status" class="mt-2 text-xs text-center hidden"></div>
+      </div>
+
+      <!-- Indexed Documents Table -->
+      <div class="bg-slate-800/40 border border-slate-700/60 rounded-xl p-5 flex-1 flex flex-col">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-300 flex items-center">
+            <i class="fa-solid fa-database mr-2 text-indigo-400"></i> Knowledge Base
+          </h2>
+          <button onclick="fetchStats()" class="text-xs text-slate-400 hover:text-white transition">
+            <i class="fa-solid fa-arrows-rotate mr-1"></i> Refresh
+          </button>
+        </div>
+        <div class="overflow-y-auto flex-1 max-h-[300px] space-y-2 pr-1" id="docs-list">
+          <div class="text-xs text-slate-500 text-center py-6">No documents indexed yet.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Interactive Grounded Chatbot -->
+    <div class="lg:col-span-7 bg-slate-800/40 border border-slate-700/60 rounded-xl flex flex-col h-[750px] overflow-hidden">
+      <!-- Chat Header -->
+      <div class="px-6 py-4 border-b border-slate-700/60 bg-slate-800/80 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 rounded-full bg-indigo-600/30 border border-indigo-500/40 flex items-center justify-center text-indigo-400">
+            <i class="fa-solid fa-robot text-sm"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold text-white">Grounded RAG Assistant</h3>
+            <p class="text-xs text-slate-400">Strict Hallucination Guardrails Enforced</p>
+          </div>
+        </div>
+        <button onclick="clearChat()" class="text-xs text-slate-400 hover:text-rose-400 transition flex items-center">
+          <i class="fa-regular fa-trash-can mr-1"></i> Clear Chat
+        </button>
+      </div>
+
+      <!-- Messages Window -->
+      <div id="chat-window" class="flex-1 p-6 overflow-y-auto space-y-4">
+        <!-- Initial Welcome Message -->
+        <div class="flex items-start space-x-3">
+          <div class="w-7 h-7 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs">
+            <i class="fa-solid fa-robot"></i>
+          </div>
+          <div class="bg-slate-800 border border-slate-700 rounded-2xl rounded-tl-none p-4 max-w-xl text-xs leading-relaxed text-slate-200">
+            Hello! I am the official ApexHaven Properties AI assistant. Ask any questions regarding our active listings, executive leadership, commission schedules, FAQs, or escrow policies. My responses are strictly grounded in your uploaded documents.
+          </div>
+        </div>
+      </div>
+
+      <!-- Input Bar -->
+      <div class="p-4 border-t border-slate-700/60 bg-slate-950/40">
+        <form id="chat-form" onsubmit="handleChatSubmit(event)" class="flex items-center space-x-3">
+          <input
+            id="query-input"
+            type="text"
+            placeholder="Ask about listings, pricing, commissions, or policies..."
+            class="flex-1 bg-slate-900 border border-slate-700 focus:border-indigo-500 focus:outline-none rounded-lg px-4 py-3 text-xs text-white placeholder-slate-500 transition"
+          />
+          <button
+            type="submit"
+            id="send-btn"
+            class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-3 rounded-lg text-xs font-semibold flex items-center transition shadow-lg shadow-indigo-600/30"
+          >
+            <span>Ask</span>
+            <i class="fa-solid fa-paper-plane ml-2 text-[11px]"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    async function fetchStats() {
+      try {
+        const res = await fetch('/api/stats');
+        const data = await res.json();
+        document.getElementById('stat-docs').innerText = data.total_documents;
+        document.getElementById('stat-chunks').innerText = data.total_chunks;
+        document.getElementById('stat-queries').innerText = data.total_queries;
+
+        const docsContainer = document.getElementById('docs-list');
+        if (data.document_list.length === 0) {
+          docsContainer.innerHTML = `<div class="text-xs text-slate-500 text-center py-6">No documents indexed yet.</div>`;
+        } else {
+          docsContainer.innerHTML = data.document_list.map(name => `
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 text-xs">
+              <div class="flex items-center space-x-2 truncate">
+                <i class="fa-solid fa-file-pdf text-rose-400"></i>
+                <span class="truncate font-medium text-slate-200">${name}</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <button onclick="reprocessDoc('${name}')" title="Re-process" class="text-slate-400 hover:text-indigo-400 transition">
+                  <i class="fa-solid fa-rotate-right"></i>
+                </button>
+                <button onclick="deleteDoc('${name}')" title="Delete" class="text-slate-400 hover:text-rose-400 transition">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          `).join('');
+        }
+      } catch (err) {
+        console.error("Failed to load metrics", err);
+      }
+    }
+
+    async function handleFileUpload(file) {
+      if (!file) return;
+      const statusDiv = document.getElementById('upload-status');
+      statusDiv.classList.remove('hidden');
+      statusDiv.innerText = `Ingesting ${file.name}...`;
+      statusDiv.className = "mt-2 text-xs text-center text-amber-400";
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const res = await fetch('/api/upload', { method: 'POST', body: formData });
+        if (res.ok) {
+          statusDiv.innerText = `Successfully ingested & indexed!`;
+          statusDiv.className = "mt-2 text-xs text-center text-emerald-400";
+          fetchStats();
+        } else {
+          const err = await res.json();
+          statusDiv.innerText = `Error: ${err.detail || 'Upload failed'}`;
+          statusDiv.className = "mt-2 text-xs text-center text-rose-400";
+        }
+      } catch (err) {
+        statusDiv.innerText = "Error uploading document.";
+        statusDiv.className = "mt-2 text-xs text-center text-rose-400";
+      }
+      setTimeout(() => statusDiv.classList.add('hidden'), 4000);
+    }
+
+    async function deleteDoc(docName) {
+      if (!confirm(`Delete ${docName} from knowledge base?`)) return;
+      await fetch(`/api/documents/${docName}`, { method: 'DELETE' });
+      fetchStats();
+    }
+
+    async function reprocessDoc(docName) {
+      await fetch(`/api/reprocess/${docName}`, { method: 'POST' });
+      fetchStats();
+    }
+
+    async function handleChatSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('query-input');
+      const query = input.value.trim();
+      if (!query) return;
+
+      input.value = '';
+      appendMessage('user', query);
+
+      const loadingId = appendLoading();
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: query })
+        });
+        const data = await res.json();
+        removeMessage(loadingId);
+        appendMessage('bot', data.answer, data.sources);
+        fetchStats();
+      } catch (err) {
+        removeMessage(loadingId);
+        appendMessage('bot', 'Error communicating with AI service. Please try again.');
+      }
+    }
+
+    function appendMessage(role, text, sources = []) {
+      const window = document.getElementById('chat-window');
+      const msgDiv = document.createElement('div');
+      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      if (role === 'user') {
+        msgDiv.className = "flex justify-end";
+        msgDiv.innerHTML = `
+          <div class="bg-indigo-600 text-white rounded-2xl rounded-tr-none p-3.5 max-w-xl text-xs shadow-md">
+            <p>${text}</p>
+            <p class="text-[10px] text-indigo-200 text-right mt-1">${time}</p>
+          </div>
+        `;
+      } else {
+        msgDiv.className = "flex items-start space-x-3";
+        let sourcesHtml = '';
+        if (sources && sources.length > 0) {
+          sourcesHtml = `
+            <div class="mt-2.5 pt-2 border-t border-slate-700/60">
+              <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Sources Referenced:</p>
+              <div class="flex flex-wrap gap-1">
+                ${sources.map(s => `<span class="inline-block bg-slate-900 border border-slate-700 text-indigo-300 text-[10px] px-2 py-0.5 rounded">${s}</span>`).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        msgDiv.innerHTML = `
+          <div class="w-7 h-7 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs">
+            <i class="fa-solid fa-robot"></i>
+          </div>
+          <div class="bg-slate-800 border border-slate-700 rounded-2xl rounded-tl-none p-4 max-w-xl text-xs leading-relaxed text-slate-200 shadow-md">
+            <p class="whitespace-pre-line">${text}</p>
+            ${sourcesHtml}
+            <p class="text-[10px] text-slate-500 text-right mt-1.5">${time}</p>
+          </div>
+        `;
+      }
+      window.appendChild(msgDiv);
+      window.scrollTop = window.scrollHeight;
+    }
+
+    function appendLoading() {
+      const id = 'loading-' + Date.now();
+      const window = document.getElementById('chat-window');
+      const msgDiv = document.createElement('div');
+      msgDiv.id = id;
+      msgDiv.className = "flex items-start space-x-3";
+      msgDiv.innerHTML = `
+        <div class="w-7 h-7 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs">
+          <i class="fa-solid fa-robot"></i>
+        </div>
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl rounded-tl-none p-4 text-xs text-slate-400 flex items-center space-x-2">
+          <i class="fa-solid fa-circle-notch fa-spin text-indigo-400"></i>
+          <span>Retrieving chunks & generating grounded answer...</span>
+        </div>
+      `;
+      window.appendChild(msgDiv);
+      window.scrollTop = window.scrollHeight;
+      return id;
+    }
+
+    function removeMessage(id) {
+      const elem = document.getElementById(id);
+      if (elem) elem.remove();
+    }
+
+    function clearChat() {
+      document.getElementById('chat-window').innerHTML = '';
+      fetchStats();
+    }
+
+    // Auto-fetch on page load
+    fetchStats();
+  </script>
+</body>
+</html>
