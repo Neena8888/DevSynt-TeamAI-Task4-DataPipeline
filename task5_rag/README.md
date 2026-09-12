@@ -7,7 +7,7 @@
 
 **Demo Video:** [https://www.loom.com/share/7a6f36f9f0914efc9342ae198c876413](https://www.loom.com/share/7a6f36f9f0914efc9342ae198c876413) 
 
-**LinkedIn Writeup:** [https://www.linkedin.com/in/your-post-here](https://www.linkedin.com/in/your-post-here)  
+**LinkedIn Writeup:** [https://lnkd.in/p/dkvuXNs9](https://lnkd.in/p/dkvuXNs9)  
 
 ---
 
