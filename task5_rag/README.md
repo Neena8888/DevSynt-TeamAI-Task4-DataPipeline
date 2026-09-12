@@ -125,4 +125,4 @@ The pipeline was validated against a 10-query benchmark testing direct retrieval
 | 9 | Negative Guardrail | Who is the Chief Financial Officer (CFO) of ApexHaven Properties? | Refuses hallucination of unlisted role, outputs exact notice | **PASS** |
 | 10 | Negative Guardrail | What mortgage rates are currently offered by Bank of America? | Rejects external bank query, outputs exact notice | **PASS** |
 
-*Complete raw outputs and grounding transcripts are documented in [`test_report.md`](./test_report.md).*
+*Complete raw outputs and grounding transcripts are documented in [`README.md`](./README.md).*
