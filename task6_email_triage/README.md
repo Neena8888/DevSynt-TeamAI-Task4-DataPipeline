@@ -5,7 +5,7 @@
 **Project Lead:** Usama  
 **Deadline:** Saturday, 19 September 2026  
 **Evaluation Status:** 10/10 Benchmark Tests Verified (100% Pass)  
-**Demo Video:** [https://www.loom.com/share/your-link-here](https://www.loom.com/share/your-link-here)  
+**Demo Video:** [https://www.loom.com/share/02bddc446ad0450981bfcf7663f63a89](https://www.loom.com/share/02bddc446ad0450981bfcf7663f63a89)  
 **LinkedIn Writeup:** [https://www.linkedin.com/in/your-post-here](https://www.linkedin.com/in/your-post-here)  
 
 ---
