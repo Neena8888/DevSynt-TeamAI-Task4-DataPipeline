@@ -6,7 +6,7 @@
 **Deadline:** Saturday, 19 September 2026  
 **Evaluation Status:** 10/10 Benchmark Tests Verified (100% Pass)  
 **Demo Video:** [https://www.loom.com/share/02bddc446ad0450981bfcf7663f63a89](https://www.loom.com/share/02bddc446ad0450981bfcf7663f63a89)  
-**LinkedIn Writeup:** [https://www.linkedin.com/in/your-post-here](https://www.linkedin.com/in/your-post-here)  
+**LinkedIn Writeup:** https://lnkd.in/p/d_fDVgh6
 
 ---
 
